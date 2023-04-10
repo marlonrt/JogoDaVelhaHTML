@@ -1,6 +1,6 @@
 # Jogo da Velha
 
-Este é um jogo da velha simples feito com HTML, CSS e JavaScript.
+Este é um jogo da velha simples feito com HTML.
 
 https://user-images.githubusercontent.com/119014294/231005712-e095ce0c-5fab-45de-8d6c-27aa8e6a10d1.mp4
 

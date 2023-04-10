@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)file:///C:/Users/marlon/Desktop/novo%201%20-%20Copia.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Jogo da Velha</title>
+	
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="300" height="300"></canvas>
+	<script>
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+
+		const player1 = 'X';
+		const player2 = 'O';
+
+		let currentPlayer = player1;
+
+		let board = [
+			['', '', ''],
+			['', '', ''],
+			['', '', '']
+		];
+
+		function drawBoard() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.strokeStyle = 'black';
+			ctx.lineWidth = 3;
+
+			// Desenha as linhas do tabuleiro
+			ctx.beginPath();
+			ctx.moveTo(100, 0);
+			ctx.lineTo(100, 300);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(200, 0);
+			ctx.lineTo(200, 300);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(0, 100);
+			ctx.lineTo(300, 100);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.moveTo(0, 200);
+			ctx.lineTo(300, 200);
+			ctx.stroke();
+
+			// Desenha as jogadas
+			ctx.font = '80px Arial';
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle';
+			for (let row = 0; row < board.length; row++) {
+				for (let col = 0; col < board[row].length; col++) {
+					const symbol = board[row][col];
+					if (symbol === player1) {
+						ctx.fillText('X', col * 100 + 50, row * 100 + 50);
+					} else if (symbol === player2) {
+						ctx.fillText('O', col * 100 + 50, row * 100 + 50);
+					}
+				}
+			}
+		}
+
+		function checkWinner() {
+			const winConditions = [
+				// Horizontais
+				[0, 0, 0, 1, 0, 2],
+				[1, 0, 1, 1, 1, 2],
+				[2, 0, 2, 1, 2, 2],
+
+				// Verticais
+				[0, 0, 1, 0, 2, 0],
+				[0, 1, 1, 1, 2, 1],
+				[0, 2, 1, 2, 2, 2],
+
+				// Diagonais
+				[0, 0, 1, 1, 2, 2],
+				[0, 2, 1, 1, 2, 0]
+			];
+
+			for (let condition of winConditions) {
+				const [row1, col1, row2, col2, row3, col3] = condition;
+				const symbol1 = board[row1][col1];
+const symbol2 = board[row2][col2];
+const symbol3 = board[row3][col3];
+if (symbol1 !== '' && symbol1 === symbol2 && symbol2 === symbol3) {
+return symbol1;
+}
+}
+		return null;
+	}
+
+	function handleClick(event) {
+		const row = Math.floor(event.clientY / 100);
+		const col = Math.floor(event.clientX / 100);
+
+		if (board[row][col] === '') {
+			board[row][col] = currentPlayer;
+			currentPlayer = currentPlayer === player1 ? player2 : player1;
+		}
+
+		const winner = checkWinner();
+		if (winner) {
+			alert(`Parabéns! O jogador ${winner} venceu!`);
+			board = [				['', '', ''],
+				['', '', ''],
+				['', '', '']
+			];
+			currentPlayer = player1;
+		}
+
+		drawBoard();
+	}
+
+	drawBoard();
+	canvas.addEventListener('click', handleClick);
+</script>
+
+</body></html>
